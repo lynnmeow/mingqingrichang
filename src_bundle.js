@@ -136,6 +136,8 @@ const _skinAll = {}, _portraitAll = {};          // 各皮肤预载缓存：[img
 // 图片路径解析：若已生成 base64 data URI（config/05_imagedata.js，绕开 CloudStudio 网关无 Content-Length
 // 导致浏览器 Image() 加载挂死的问题），优先用内存解码，零 HTTP、零并发、瞬时可靠。
 function resolveImg(p) { return (window.YLT_IMG_DATA && window.YLT_IMG_DATA[p]) ? window.YLT_IMG_DATA[p] : p; }
+// 数据是否已到达（对应分片已注入 YLT_IMG_DATA）。注册图片前先校验，避免「分片未到就 new Image() 走字面路径 404/挂死」。
+function imgDataReady(p) { return !!(p && window.YLT_IMG_DATA && window.YLT_IMG_DATA[p]); }
 /* 图片就绪「双门控」（优化加载等待）：
    - titleScreenReady：开始界面可见所需 = 标题图(title.png) + 家园背景(home_bg) → 控制「关闭加载界面」时机。
      开始界面只需这两张，不须等全家具/全立绘，加载界面因此更快消失（感知速度大幅提升）。
@@ -146,7 +148,8 @@ let _titlePending = 0, _titleReady = false;
 let _gamePending = 0, _gameReady = false;
 function titlePendInc() { _titlePending++; }
 function titlePendDec() { _titlePending = Math.max(0, _titlePending - 1); if (_titlePending === 0) _titleReady = true; }
-function gamePendInc() { _gamePending++; }
+let _imgToDecode = 0;   // 已登记待解码的图片数（game 门控图片：home_bg/家具/立绘），用于加载真实进度
+function gamePendInc() { _gamePending++; _imgToDecode++; }
 function gamePendDec() { _gamePending = Math.max(0, _gamePending - 1); if (_gamePending === 0) _gameReady = true; }
 // 同一图对两个门控都关键（如 home_bg）→ 两个计数同时 inc/dec
 function bothPendInc() { titlePendInc(); gamePendInc(); }
@@ -155,9 +158,38 @@ function titleScreenReady() {
   if (typeof Image === "undefined" || typeof document === "undefined") return true; // 无头测试：跳过
   return _titleReady;
 }
+// 进入游戏门控（显式核对真实解码后的图像对象，而非仅依赖计数）：
+// 必须全部真正解码完成才允许进入 ——
+// ① 家园背景(home_bg) ② 全部家具(含 4 种装修色地毯) ③ 主角立绘(skin)
+// ④ 若存在在场访客（如读档时已有访客），优先要求该访客立绘就绪。
+// 仅核对「配置了图片路径」的资源；程序绘制兜底的资源(无 skin 的角色)不强制，避免永不就绪。
+function _imgReady(img) { return !!(img && img.complete && img.width); }
 function gameReady() {
-  if (typeof Image === "undefined" || typeof document === "undefined") return true;
-  return _gameReady;
+  if (typeof Image === "undefined" || typeof document === "undefined") return true;   // 无头测试：跳过
+  // ① 家园背景
+  if (!_imgReady(homeBgImg)) return false;
+  // ② 全部家具（按配置 f.img 才要求） + 4 种装修色地毯
+  for (const f of (C.furniture || [])) {
+    if (f.img && !_imgReady(furnitureImg[f.id])) return false;
+  }
+  for (const rid of ["rug_ink", "rug_gold", "rug_jade", "rug_rose"]) {
+    if (!_imgReady(furnitureImg[rid])) return false;
+  }
+  // ③ 主角立绘（仅当配置了 skin 路径才要求）
+  for (const k in (C.sisters || {})) {
+    const s = C.sisters[k];
+    const list = (s.skins && s.skins.length) ? s.skins : [{ skin: s.skin, portrait: s.portrait }];
+    const sk0 = list[0] || {};
+    if (sk0.skin && !_imgReady(skinImg[k])) return false;
+    if (sk0.portrait && !_imgReady(portraitImg[k])) return false;
+  }
+  // ④ 在场访客：优先要求该访客立绘已解码
+  if (game.visitor) {
+    const vk = (game.visitor.formKey) || (game.visitor.def && game.visitor.def.id);
+    const vi = (vk && visitorImg[vk]) || (game.visitor.def && visitorImg[game.visitor.def.id]);
+    if (!_imgReady(vi)) return false;
+  }
+  return true;
 }
 function loadOptImage(path, store, key, attempt) {
   if (!path || typeof Image === "undefined") return;
@@ -178,11 +210,21 @@ function preloadSisterImages() {
   for (const k in C.sisters) {
     const s = C.sisters[k];
     const list = (s.skins && s.skins.length) ? s.skins : [{ skin: s.skin, portrait: s.portrait }];
-    _skinAll[k] = []; _portraitAll[k] = [];
+    if (!_skinAll[k]) _skinAll[k] = [];
+    if (!_portraitAll[k]) _portraitAll[k] = [];
     list.forEach((sk, i) => {
       const sp = resolveImg(sk.skin), pp = resolveImg(sk.portrait);
-      if (sp) { gamePendInc(); const si = new Image(); si.onload = () => { _skinAll[k][i] = si; if (i === 0) skinImg[k] = si; gamePendDec(); }; si.onerror = () => { gamePendDec(); }; si.src = sp; }
-      if (pp) { gamePendInc(); const pi = new Image(); pi.onload = () => { _portraitAll[k][i] = pi; if (i === 0) portraitImg[k] = pi; gamePendDec(); }; pi.onerror = () => { gamePendDec(); }; pi.src = pp; }
+      // 幂等：该皮肤/立绘已预载则跳过；数据未到（分片未载）则等下一片到达再试（bootstrapImages 每片调用）
+      if (sp && !_skinAll[k][i] && imgDataReady(sk.skin)) {
+        gamePendInc(); const si = new Image();
+        si.onload = () => { _skinAll[k][i] = si; if (i === 0) skinImg[k] = si; gamePendDec(); };
+        si.onerror = () => { gamePendDec(); }; si.src = sp;
+      }
+      if (pp && !_portraitAll[k][i] && imgDataReady(sk.portrait)) {
+        gamePendInc(); const pi = new Image();
+        pi.onload = () => { _portraitAll[k][i] = pi; if (i === 0) portraitImg[k] = pi; gamePendDec(); };
+        pi.onerror = () => { gamePendDec(); }; pi.src = pp;
+      }
     });
   }
 }
@@ -1332,13 +1374,15 @@ function drawVisitor(now) {
 /* ===== scenes.js 432-443 ===== */
 const visitorImg = {};   // 访客立绘缓存（key: visitorId 或 formKey）。原 scenes.js 头部全局声明，拆分时保留于此。
 const flowerImg = {};    // 花草/药材立绘缓存（key: type_bud / type_bloom）。原 scenes.js 头部全局声明，拆分时保留于此。
-function registerVisitorImage(id, path, attempt) {
-  path = resolveImg(path);
+function registerVisitorImage(id, rawPath, attempt) {
+  if (visitorImg[id]) return;                        // 幂等：已登记则跳过
+  if (!imgDataReady(rawPath)) return;                // 数据未到：用「原始 key」校验，等下一片到达再试
+  const path = resolveImg(rawPath);
   if (!path || typeof Image === "undefined") return;
   attempt = attempt || 0;
   const img = new Image();
   img.onload = () => { visitorImg[id] = img; };
-  img.onerror = () => { if (attempt < 3) setTimeout(() => registerVisitorImage(id, path, attempt + 1), 350 * (attempt + 1)); };
+  img.onerror = () => { if (attempt < 3) setTimeout(() => registerVisitorImage(id, rawPath, attempt + 1), 350 * (attempt + 1)); };
   img.src = path;
 }
 // F-Editor：家具视觉盒（锚点 ax/ay + 尺寸 w/h + 偏移 ox/oy，全部可由 03_layout.js 配置）。
@@ -1360,7 +1404,11 @@ function registerFlowerImages() {
     if (types.indexOf(t) < 0) types.push(t);
   }
   for (const t of types) for (const s of ["bud", "bloom"]) {
-    const key = t + "_" + s, path = resolveImg("image/flowers/" + key + ".png");
+    const key = t + "_" + s;
+    if (flowerImg[key]) continue;                    // 幂等：已登记则跳过
+    const rawPath = "image/flowers/" + key + ".png";
+    if (!imgDataReady(rawPath)) continue;            // 数据未到：用「原始 key」校验，等下一片到达再试
+    const path = resolveImg(rawPath);
     if (!path) continue;
     const img = new Image();
     img.onload = () => { flowerImg[key] = img; };
@@ -1607,6 +1655,8 @@ function drawChest(cx, cy, now) {
 let homeBgImg = null;   // 家园背景图（image/home_bg.png）；缺失则回退程序逐格绘制。原 scenes.js 头部全局声明，拆分时保留于此。
 /* ===== scenes.js 10-19 ===== */
 function registerHomeBg() {
+  if (homeBgImg) return;                              // 幂等：已登记则跳过
+  if (!imgDataReady("image/home_bg.png")) return;    // 数据未到：等下一片到达再试（bootstrapImages 每片调用）
   const path = resolveImg("image/home_bg.png");
   if (!path || typeof Image === "undefined") return;
   bothPendInc();   // 家园背景对「开始界面」与「进入游戏」两个门控都关键
@@ -1710,15 +1760,17 @@ function drawHomeScene(now) {
 /* ===== scenes.js 418-418 ===== */
 const furnitureImg = {};
 /* ===== scenes.js 419-430 ===== */
-function registerFurnitureImage(id, path, attempt) {
+function registerFurnitureImage(id, rawPath, attempt) {
+  if (furnitureImg[id]) return;                      // 幂等：已登记则跳过
   attempt = attempt || 0;
-  path = resolveImg(path);
+  if (!imgDataReady(rawPath)) return;                // 数据未到：用「原始 key」校验 YLT_IMG_DATA（resolveImg 前），等下一片到达再试
+  const path = resolveImg(rawPath);
   if (!path || typeof Image === "undefined") return;
   if (attempt === 0) gamePendInc();   // 仅首次登记计入「进入游戏」门控，重试不再重复计数
   const img = new Image();
   img.onload = () => { furnitureImg[id] = img; gamePendDec(); };
   // 失败重试：沙箱静态服务并发拉图偶发丢请求，重试自愈（最多 3 次，退避递增）；最终失败也减计数避免卡死
-  img.onerror = () => { if (attempt < 3) setTimeout(() => registerFurnitureImage(id, path, attempt + 1), 350 * (attempt + 1)); else gamePendDec(); };
+  img.onerror = () => { if (attempt < 3) setTimeout(() => registerFurnitureImage(id, rawPath, attempt + 1), 350 * (attempt + 1)); else gamePendDec(); };
   img.src = path;
 }
 // 访客立绘（npc/<id>.png），与家具图同款 data URI 内联、同款守卫，逻辑一致
@@ -2354,7 +2406,7 @@ function deskInteract() {
 // 大树：每日 1 次，点击拾取特殊道具（specialPools.tree）+ 随机一章书（F9），均去重不重复
 function treeInteract() {
   const f = findFurniture("tree"); if (!f) return;
-  if (game.treeClaimed) { setMsg("今日已在大树下捡过东西了", 1.4); return; }
+  if (game.treeClaimed) { setMsg("今日已在树下捡过东西了", 1.4); return; }
   game.treeClaimed = true;                 // 每日仅 1 次，先占位（避免自动模式走到树下每帧重复触发刷屏）
   let got = false;
   const sp = rollSpecial("tree");
@@ -2391,7 +2443,7 @@ function hitHomeSister(lx, ly) {
 // 书桌绘画：点任意格 → 随机落 1 笔（每日限 1），落满则画成（F13）
 function paintRandomCell() {
   if (!game.painting || !game.painting.colored) return;
-  if (game.painting.lastDay === game.day) { setMsg("今日已落过一笔", 1.2); return; }
+  if (game.painting.lastDay === game.day) { setMsg("今日已画画过了", 1.2); return; }
   const grey = [];
   for (let i = 0; i < game.painting.colored.length; i++) if (!game.painting.colored[i]) grey.push(i);
   if (!grey.length) { setMsg("画已大成", 1.6); game.autoPaintSkip = true; return; }  // 画作已大成 → 自动模式不再每日重走书桌（解除分支 0 卡死）
@@ -2401,7 +2453,7 @@ function paintRandomCell() {
   saveGame();
   addDiaryEntry("为画添了一笔。");
   const done = game.painting.colored.every(Boolean);
-  setMsg(done ? "画已大成 · 可细细赏看" : "在画上落下一笔", done ? 2.0 : 1.2);
+  setMsg(done ? "画已大成 · 可细细赏看" : "在画上画了一笔", done ? 2.0 : 1.2);
 }
 function swingInteract() {
   // 家园小游戏：秋千 onTap 掷 swingTrigger(默认 10%) 概率开「对弈」，
@@ -6737,7 +6789,8 @@ function loop(t) {
     if (titleScreenReady() || (now - game._bootStart > 6000)) { game._bootDone = true; hideLoader(); }
   }
   // 进入游戏所需图（家园背景 + 家具 + 立绘）后台静默补齐；用户点「开始」时已登记延迟进入，此处就绪即触发。
-  if (game._pendingEnter && (gameReady() || (now - game._bootStart > 8000))) {
+  // 兜底从「玩家点击开始」(_pendingAt) 起算 15s，而非加载阶段 _bootStart（避免一点开始就强制进、无视图是否就绪）。
+  if (game._pendingEnter && (gameReady() || (game._pendingAt && now - game._pendingAt > 15000))) {
     const cb = game._pendingEnter; game._pendingEnter = null; game._pendingAt = 0; cb(); game.showTitle = false;
   }
   requestAnimationFrame(loop);
@@ -7005,13 +7058,15 @@ function hideLoader() {
 }
 // 加载进度（供 index.html 加载层渲染真实进度墨线）：图片分片 + 开始界面就绪 加权。
 // 方案C：书籍改「目录常驻(config_bundle) + 每书懒加载」，不再计入首屏进度（书文分片按需拉取）。
-let _imgTotal = 0, _imgLoaded = 0;
+let _imgTotal = 0, _imgLoaded = 0;        // 图片分片（下载计数）
 function updateLoadProgress() {
   let p = 0;
-  if (_imgTotal) p += (_imgLoaded / _imgTotal) * 0.70;   // 图片分片 ~70%
-  if (typeof titleScreenReady === "function" && titleScreenReady()) p += 0.30; // 开始界面关键图就绪 ~30%
-  if (p < 0.02) p = 0.02;                                // 至少可见「起步」进度
-  if (p > 1) p = 1;
+  // 真实分阶段进度（非伪造）：bundles 解析 → 分片下载 → 图片解码 → 开始界面就绪
+  if (typeof window !== "undefined" && window.__YLT_BUNDLES_DONE) p = 0.20;                                   // ① 配置+引擎 bundle 解析完成（同步阻塞，到达即记 20%）
+  if (_imgTotal) p = Math.max(p, 0.20 + (_imgLoaded / _imgTotal) * 0.35);                                     // ② 分片下载 20%→55%
+  if (typeof _imgToDecode !== "undefined" && _imgToDecode) p = Math.max(p, 0.55 + ((_imgToDecode - _gamePending) / _imgToDecode) * 0.40); // ③ 实际图片解码 55%→95%
+  if (typeof titleScreenReady === "function" && titleScreenReady()) p = 1;                                    // ④ 开始界面关键图（标题+家园背景）就绪 → 100%
+  if (p < 0) p = 0; if (p > 1) p = 1;
   if (typeof window !== "undefined") window.__YLT_LOAD_PROGRESS = p;
 }
 // 方案C · 书籍正文懒加载：书架/目录只需常驻的 bookToc（在 config_bundle 内，boot 前就绪）；
@@ -7058,7 +7113,7 @@ function loadImageSlicesAsync() {
   if (typeof document === "undefined" || !document.createElement || !document.body) { _imgLoaded = n; updateLoadProgress(); bootstrapImages(); return; }
   if (!n) { _imgLoaded = n; updateLoadProgress(); bootstrapImages(); return; }   // 无图片分片（极端）→ 直接预载（全回退程序图）
   let pending = n;
-  const done = () => { pending--; _imgLoaded++; if (pending <= 0) bootstrapImages(); updateLoadProgress(); };
+  const done = () => { pending--; _imgLoaded++; bootstrapImages(); updateLoadProgress(); };   // 每片到达即登记已就绪图（bootstrap 幂等：关键图先到先显示，不必等全部分片）
   for (let i = 1; i <= n; i++) {
     const s = document.createElement("script");
     s.src = "config/05_imagedata_" + i + ".js";
@@ -7073,9 +7128,10 @@ function loadImageSlicesAsync() {
 // 必须在分片之后调用：resolveImg 取的是 data URI，分片未到则拿不到图。
 function bootstrapImages() {
   if (typeof Image === "undefined") return;
-  preloadSisterImages();      // core.js：全部角色皮肤/立绘预载（计入 game 门控）
-  applyFurnitureImages();     // scenes.js：家具 PNG + 家园背景登记（home_bg 计双门控，家具计 game 门控）
-  if (titleImg === null) {    // 标题图：仅开始界面需要，计入 title 门控
+  if (!(window.YLT_IMG_DATA && Object.keys(window.YLT_IMG_DATA).length)) return;  // 数据未到：等下一片到达再试
+  preloadSisterImages();      // core.js：全部角色皮肤/立绘预载（幂等，按片陆续登记）
+  applyFurnitureImages();     // 家具 PNG + 家园背景登记（幂等，按片陆续登记）
+  if (titleImg === null && imgDataReady("image/title.png")) {   // 标题图：仅开始界面需要，计入 title 门控；数据未到则等下一片
     titleImg = new Image();
     titlePendInc();
     titleImg.onload = () => { titlePendDec(); };

@@ -545,9 +545,7 @@ window.YLT_CFG.layout = {
       "h": 2.58
     }
   },
-  "flower_shelf": {
-    "img": "image/flower_shelf.png",
-    "x": 5,
+  "flower_shelf": {    "x": 5,
     "y": 15,
     "w": 2,
     "h": 3,
@@ -689,9 +687,7 @@ window.YLT_CFG.layout = {
       "h": 1.17
     }
   },
-  "rug": {
-    "img": "image/rug.png",
-    "x": 2,
+  "rug": {    "x": 2,
     "y": 6,
     "w": 5.4,
     "h": 2.86,
@@ -804,7 +800,6 @@ window.YLT_CFG.layout = {
     }
   },
   "f1": {
-    "img": "image/f1.png",
     "x": 1,
     "y": 9,
     "w": 2,
@@ -828,7 +823,6 @@ window.YLT_CFG.layout = {
     }
   },
   "f2": {
-    "img": "image/f2.png",
     "x": 14,
     "y": 11,
     "w": 2,
@@ -851,9 +845,7 @@ window.YLT_CFG.layout = {
       "h": 1.25
     }
   },
-  "f3": {
-    "img": "image/f3.png",
-    "x": 18,
+  "f3": {    "x": 18,
     "y": 7,
     "w": 2,
     "h": 3,
