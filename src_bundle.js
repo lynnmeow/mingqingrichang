@@ -7142,7 +7142,7 @@ function bootstrapImages() {
 // 进入游戏门控：点「开始」时若家园/家具/立绘未就绪，延迟到就绪（或 8s 兜底）再真正进入，
 // 避免「进游戏后图没加载好」。已登记延迟时标题界面显示「家园整理中…」。
 function enterGame(startCb) {
-  if (gameReady() || (performance.now() - game._bootStart > 8000)) { startCb(); game.showTitle = false; game._pendingEnter = null; }
+  if (gameReady()) { startCb(); game.showTitle = false; game._pendingEnter = null; }   // 严格等 gameReady()；兜底由 loop 从点击时刻算 15s 接管，不在进入时按加载起点超时强进
   else { game._pendingEnter = startCb; game._pendingAt = performance.now(); }   // 记录登记时刻，供「家园整理中」toast 淡入计时
 }
 
