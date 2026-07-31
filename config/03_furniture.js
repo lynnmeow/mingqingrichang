@@ -100,14 +100,14 @@ window.YLT_CFG.furniture = [
       {who:"阎明",text:"（抽出一册）这本批注最多，是你最爱翻的吧？"},
     ],
     proximity:[
-      {who:"李清凝",text:"（笑着抚摸书脊）这排医书有好多师姐的批注，读的时候好像两个人在边看边聊天。"},
-      {who:"阎明",text:"（轻轻敲清凝）是不是又买了新的话本？都快装不下了。"},
+      {who:"李清凝",text:"这排医书有好多师姐的批注，读的时候好像两个人在边看边聊天。"},
+      {who:"阎明",text:"是不是又买了新的话本？都快装不下了。"},
     ] },
   { id:"bed", name:"床榻", kind:"bed", x:2, y:9, isObstacle:true, onTap:"bed",
     collide:{x:0.05,y:0.0,w:0.9,h:0.95}, hit:{x:0.05,y:0.0,w:0.9,h:0.95},
     lines:[
-       {who:"李清凝",text:"（滚到阎明怀里）师姐身上暖暖的，嘿嘿。"},
-      {who:"阎明",text:"（拢好被角）别笑了，早点睡，明天准备做什么？"},
+       {who:"李清凝",text:"师姐身上暖暖的，嘿嘿。"},
+      {who:"阎明",text:"别笑了，早点睡，明天准备做什么？"},
       {who:"李清凝",text:"明天要和师姐睡懒觉！"},
     ],
     proximity:[
@@ -152,18 +152,26 @@ window.YLT_CFG.furniture = [
   { id:"tree", name:"大树", kind:"tree", x:13, y:3, isObstacle:true, onTap:"tree",
     collide:{x:0.05,y:0.0,w:0.9,h:0.6}, hit:{x:0.05,y:0.0,w:0.9,h:0.6},
     proximity:[
-      {who:"李清凝",text:"（仰头）这树是当年一起种下的，如今都这般高了。"},
+      {who:"阎明",text:"这树是当年一起种下的，如今都这般高了。"},
       {who:"李清凝",text:"师姐穿白衣坐在树上的时候，好像传说里的仙女一样。"},
     ] },
   { id:"swing", name:"秋千", kind:"swing", x:16, y:3, isObstacle:true, onTap:"swing",
     collide:{x:0.2,y:0.1,w:0.6,h:0.85}, hit:{x:0.2,y:0.1,w:0.6,h:0.85},
-    lines:[{who:"",text:"李清凝坐上秋千，阎明在身后轻轻推了一把，于是笑容也荡漾起来。"}],
+    lines:[
+      {who:"",text:"清凝坐上秋千，阎明在她身后轻轻推了一把，于是清凝的笑容也荡漾起来。"},
+      {who:"李清凝",text:"坐在秋千上感觉要飞起来了~"},
+    ],
     proximity:[
       {who:"李清凝",text:"（晃腿）师姐快上来一起荡秋千~"},
       {who:"阎明",text:"（贴着清凝坐在秋千上，伸手揽住她。）"},
     ] },
   { id:"weaponRack", name:"武器架", kind:"weaponRack", x:18, y:5, isObstacle:true, onTap:"weaponRack",
     collide:{x:0.15,y:0.0,w:0.7,h:0.95}, hit:{x:0.15,y:0.0,w:0.7,h:0.95},
+    lines:[
+      {who:"",text:"武器架上一双宝剑，静待出鞘。"},
+      {who:"",text:"清凝常用一支碧绿的笛剑，笛子一端抽出便是短剑。"},
+      {who:"",text:"阎明的剑更长一些，剑鞘是黑色的。"},
+    ],
     proximity:[
       {who:"阎明",text:"（擦剑）你的剑穗有点脏了，换个新的吗？"},
       {who:"李清凝",text:"师姐！看我新练的剑招！"},
@@ -171,15 +179,15 @@ window.YLT_CFG.furniture = [
     ] },
   { id:"f1", name:"花钵", kind:"flower", x:11, y:5, isObstacle:false, onTap:"flower",
     collide:null, hit:{x:0.1,y:0.2,w:0.8,h:0.8},
-    lines:[{who:"",text:"院中一片药田，间或种着几株花草。"}],
+    lines:[{who:"",text:"行医的人，总要与花草为伴。"}],
     proximity:[
       {who:"李清凝",text:"（蹲下）这盆今早刚浇过，你看它多精神。"},
     ] },
   { id:"f2", name:"花钵", kind:"flower", x:16, y:9, isObstacle:false, onTap:"flower",
     collide:null, hit:{x:0.1,y:0.2,w:0.8,h:0.8},
-    lines:[{who:"",text:"行医的人，总要与花草为伴。"}],
+    lines:[{who:"",text:"院中一片药田，间或种着几株花草。"}],
     proximity:[
-      {who:"阎明",text:"（耐心地检查花草的情况。）"},
+      {who:"",text:"阎明耐心地检查花草的情况。"},
     ] },
   { id:"f3", name:"花钵", kind:"flower", x:11, y:11, isObstacle:false, onTap:"flower",
     collide:null, hit:{x:0.1,y:0.2,w:0.8,h:0.8},

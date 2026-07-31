@@ -31,14 +31,16 @@ window.YLT_CFG.miniCfg = {
     eyesMin: 1, eyesMax: 5,
     effectRanges: { lingguang: [1, 3], wu: [1, 3], tuisuan: [1, 3] },
     // 破解成功结算台词（finishMini 用 speechKey="success"）
-    success: { ming: "破阵完成，小意思~", qing: "嘿嘿嘿，太厉害了！" }
+    success: { ming: "破阵完成~", qing: "嘿嘿嘿，太厉害了！" }
   },
   // 练剑招式（3 招：刺/挑/架）
   swordMoves: ["刺剑", "挑剑", "架剑"],
-  // 武器架触发概率（中→50/50 随机练剑/切磋）
-  weaponTrigger: 0.5,
-  // 秋千触发概率（中→下棋）
-  swingTrigger: 0.25,
-  // 窗户（白天）触发概率（中→破阵）
-  windowTrigger: 0.25,
+  // 切磋招式（同上：刺/挑/架；循环相克：刺克挑、挑克架、架克刺）
+  sparStances: ["刺剑", "挑剑", "架剑"],
+  // 武器架触发概率（85% 开小游戏[练剑/切磋各半] / 15% 对话）
+  weaponTrigger: 0.85,
+  // 秋千触发概率（85% 下棋 / 15% 对话）
+  swingTrigger: 0.85,
+  // 窗户（白天）触发概率（80% 破阵 / 20% 对话）
+  windowTrigger: 0.80,
 };

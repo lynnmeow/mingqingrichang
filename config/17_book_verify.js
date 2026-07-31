@@ -30,7 +30,7 @@ window.YLT_BOOK_VERIFY = {
   "b_pincou": true,     // 拼凑月亮
   // ===== 杂览 misc（待逐本检查：保持 false）=====
   "b_daode": false, "b_shanhaij": false, "b_zhuang": false, "b_huainan": false,
-  "b_shiji": false, "b_shishuo": false, "b_chajing": false, "b_butian": false,
+  "b_shiji": false, "b_shishuo": false, "b_chajing": true, "b_butian": false,
   "b_jiupu": false, "b_xiangpu": false, "b_dongjing": false, "b_wulin": false,
   "b_mengxi": false, "b_qinshi": false, "b_yunji": false, "b_pingshi": false,
   "b_xuxiake": false, "b_tiangong": false, "b_huajing": false, "b_guangqunfang": false,
