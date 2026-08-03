@@ -3,6 +3,9 @@
   "buildCommand": "",
   "outputDirectory": ".",
   "headers": [
+    { "source": "/image/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
+    { "source": "/npc/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
+    { "source": "/index.html", "headers": [ { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" } ] },
     { "source": "/(.*)\\.js", "headers": [ { "key": "Cache-Control", "value": "public, max-age=86400, immutable" } ] },
     { "source": "/(.*)\\.css", "headers": [ { "key": "Cache-Control", "value": "public, max-age=86400, immutable" } ] }
   ]

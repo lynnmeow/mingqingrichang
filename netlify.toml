@@ -2,6 +2,23 @@
   publish = "."
   command = ""
 
+# O3 内容 hash + CDN 长缓存：图片(.webp)与带 hash 的 bundle 内容变则 URL 变 → 可安全 immutable 长缓存
+[[headers]]
+  for = "/image/**"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/npc/**"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# index.html 本身不缓存（始终取最新，引用新 hash 资源）
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 [[headers]]
   for = "*.js"
   [headers.values]

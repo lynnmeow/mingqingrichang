@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <!--PRELOAD_CRIT_START-->
+<link rel="preload" as="fetch" crossorigin href="image/title.954108412d.webp">
+<link rel="preload" as="fetch" crossorigin href="image/home_bg.3cf7f55916.webp">
+<link rel="preload" as="fetch" crossorigin href="image/rug1.1b4eb9da56.webp">
+<link rel="preload" as="fetch" crossorigin href="image/rug2.39ec9f4577.webp">
+<link rel="preload" as="fetch" crossorigin href="image/rug3.401b9f59c8.webp">
+<link rel="preload" as="fetch" crossorigin href="image/rug4.f3c32896e9.webp">
+<link rel="preload" as="fetch" crossorigin href="image/yanming_skin1.ba4391abde.webp">
+<link rel="preload" as="fetch" crossorigin href="image/yanming_skin2.b8382caa14.webp">
+<link rel="preload" as="fetch" crossorigin href="image/liqingning_skin1.4be9beaf8c.webp">
+<link rel="preload" as="fetch" crossorigin href="image/liqingning_skin2.bd4c8be9ec.webp">
+  <!--PRELOAD_CRIT_END-->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <title>明清日常 · Demo</title>
@@ -192,10 +204,8 @@ body.on-title:not(.slot-open) #decl { display: block; z-index: 2; }  /* 开始�
   /* 仅外出战斗态显示触控操作按钮（家园态不显示，避免遮挡底栏） */
   body.outing-scene #btns { display: grid; }
   .act {
-    background: rgba(255,255,255,0.32);
+    background: rgba(255,255,255,0.62);
     border: 1.5px solid rgba(255,255,255,0.72);
-    backdrop-filter: blur(8px) saturate(140%);
-    -webkit-backdrop-filter: blur(8px) saturate(140%);
     box-shadow: 0 3px 12px rgba(90,70,40,0.20), inset 0 1px 0 rgba(255,255,255,0.65);
     color: #3a3027;
   }
@@ -319,16 +329,19 @@ body.on-title:not(.slot-open) #decl { display: block; z-index: 2; }  /* 开始�
     </div>
   </div>
 
-  <!-- 配置 + 引擎三包（build_bundle.py 生成）：
-       config_core_bundle  = 首屏必需配置（不含书籍），阻塞加载、启动即解析
+  <!-- 配置 + 引擎（build_bundle.py 生成，O4 合并为单包 core_bundle.js）：
+       core_bundle.js     = 首屏必需「配置 + 家园核心引擎」合并单包（阻塞加载、启动即解析；减 1 个请求）
        config_lazy_bundle = 书籍相关配置，由 main.js 的 ensureConfigLazy 在标题界面显示后后台注入（不阻塞首屏）
-       src_core_bundle    = 首屏家园核心引擎；src_lazy_bundle = 进家园后才用（由 ensureLazy 后台拉取）
+       src_lazy_bundle    = 进家园后才用（由 ensureLazy 后台拉取）
+       图片地图 config/05_imgmap.js 独立阻塞注入（不进 bundle，便于发布期 XOR 翻转 x 标记）。
+       <head> 内 PRELOAD_CRIT 标记块由 _publish.content_hash 注入关键图 preload（as=fetch crossorigin）。
        源文件 config/*.js、src/*.js 仍保留供编辑与无头测试。 -->
-  <script src="config_core_bundle.js"></script>
-  <script>window.__IMG_SLICE_COUNT = 3;</script>
-  <script src="src_core_bundle.js"></script>
-  <script>window.__YLT_BUNDLES_DONE = true; window.__LAZY_SRC = "src_lazy_bundle.js"; window.__CONFIG_LAZY_SRC = "config_lazy_bundle.js";</script>
-  <!-- 图片数据(config/05_imagedata_*) 与 书籍正文分片(config/16_booktext/<id>_N.js) 均由 main.js 首屏后异步加载，
-       不在此处阻塞（避免「3 个 imagedata 等 1 分钟」的解析阻塞）。缺失某分片只导致个别精灵/该书正文读不到（resolveImg / 目录兜底），不会崩溃。 -->
+  <script src="config/05_imgmap.ffaf009530.js"></script>
+  <script src="core_bundle.4b517ff48e.js"></script>
+  <script>window.__YLT_BUNDLES_DONE = true; window.__LAZY_SRC = "src_lazy_bundle.0b92e13f81.js"; window.__CONFIG_LAZY_SRC = "config_lazy_bundle.0c3df64dcc.js";</script>
+  <!-- 图片二进制化（O2 变体B）：图片地图 config/05_imgmap.js 由 config_core 在启动时阻塞注入 window.YLT_IMG_FILES（rawPath→{u:.webp, x}），
+       所有精灵在 loadAllImages() 立即登记并 fetch→blob→(XOR)→decode（见 core.js fetchDrawable），无「分片未到」窗口。
+       二进制 .webp 由 image/ 与 npc/ 目录提供；发布副本由 _publish.encrypt_image_files 做 XOR 密文（x:true）保护。
+       书籍正文分片(config/16_booktext/<id>_N.js) 仍由 ensureBook 按需懒加载。 -->
 </body>
 </html>

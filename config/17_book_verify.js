@@ -17,6 +17,8 @@ window.YLT_BOOK_VERIFY = {
   "b_chu": true,        // 楚辞
   "b_poem01": true,     // 李白集
   "b_poem06": true,     // 唐诗选
+  "b_poem08": true,     // 李商隐集
+  "b_poem09": true,     // 李贺集
   "b_poem03": true,     // 苏轼集
   "b_poem04": true,     // 辛弃疾集
   "b_poem05": true,     // 宋诗词选

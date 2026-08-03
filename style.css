@@ -155,10 +155,8 @@ html, body {
     pointer-events: auto;
   }
   .act {
-    background: rgba(255,255,255,0.32);
+    background: rgba(255,255,255,0.62);
     border: 1.5px solid rgba(255,255,255,0.72);
-    backdrop-filter: blur(8px) saturate(140%);
-    -webkit-backdrop-filter: blur(8px) saturate(140%);
     box-shadow: 0 3px 12px rgba(90,70,40,0.20), inset 0 1px 0 rgba(255,255,255,0.65);
     color: #3a3027;
   }

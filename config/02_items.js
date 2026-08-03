@@ -20,7 +20,7 @@ window.YLT_CFG.codex = {
     { id:"biqidan",     name:"闭气丹", type:"medicine", desc:"服用可暂时获得在水下呼吸的能力。" },
     // 书籍（仅展示书名，不精确到章；正文在 11_books.js；默认已藏，图鉴书籍类拥有≥1章即点亮）
     { id:"b_chu", name:"《楚辞》", type:"book", desc:"屈子行吟，适合灯下共读。" },
-    { id:"b_shi", name:"《诗经》", type:"book", desc:"风雅颂间，皆是家常情致。" },
+    { id:"b_shi", name:"《诗经选》", type:"book", desc:"诗三百，思无邪。" },
     { id:"b_bencao", name:"《本草纲目》", type:"book", subcat:"本草", desc:"载药 1892 种、方万余，16 部 60 类分类体系，古代本草集大成。" },
     { id:"b_chajing", name:"《茶经》", type:"book", desc:"陆羽煮茗，山居清欢之趣。" },
     { id:"b_zhuang", name:"《庄子》", type:"book", desc:"漆园吏说逍遥，江海之志。" },
@@ -94,6 +94,8 @@ window.YLT_CFG.codex = {
     { id: "b_poem05", name: "《宋诗选》", type: "book", desc: "宋代诗词选辑。" },
     { id: "b_poem06", name: "《唐诗选》", type: "book", desc: "唐代诗词选辑。" },
     { id: "b_poem07", name: "《清诗选》", type: "book", desc: "清代诗词选辑。" },
+    { id: "b_poem08", name: "《李商隐集》", type: "book", desc: "唐·李商隐 诗词辑录。" },
+    { id: "b_poem09", name: "《李贺集》", type: "book", desc: "唐·李贺 诗词辑录。" },
     { id: "b_poem10", name: "《元曲选》", type: "book", desc: "元代诗词选辑。" },
     { id: "b_poem11", name: "《历代遗珠》", type: "book", desc: "各代诗词选辑。" },
     // 特殊道具（仅点亮图鉴，多途径获取不重复）—— F11
