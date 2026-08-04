@@ -49,4 +49,4 @@ window.YLT_IMG_FILES = {
   "npc/ximuzi.png": {u:"npc/ximuzi.f7d754e752.webp", x:true},
   "npc/zhangzhongye.png": {u:"npc/zhangzhongye.68ce6938d6.webp", x:true},
 };
-window.YLT_IMG_CRIT = ["image/title.png", "image/home_bg.png", "image/rug1.png", "image/rug2.png", "image/rug3.png", "image/rug4.png", "image/yanming_skin1.png", "image/yanming_skin2.png", "image/liqingning_skin1.png", "image/liqingning_skin2.png"];
+window.YLT_IMG_CRIT = ["image/title.png", "image/home_bg.png", "image/rug1.png", "image/rug2.png", "image/rug3.png", "image/rug4.png", "image/yanming_skin1.png", "image/yanming_skin2.png", "image/liqingning_skin1.png", "image/liqingning_skin2.png", "image/flowers/fenglingcao_bloom.png", "image/flowers/fengyucao_bloom.png", "image/flowers/hehua_bloom.png", "image/flowers/lan_bloom.png", "image/flowers/lingxincao_bloom.png", "image/flowers/meihua_bloom.png", "image/flowers/mudan_bloom.png", "image/flowers/qujing_bloom.png", "image/flowers/shancha_bloom.png", "image/flowers/shaoyao_bloom.png", "image/flowers/taohua_bloom.png", "image/flowers/xulingcao_bloom.png"];
