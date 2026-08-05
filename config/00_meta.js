@@ -18,6 +18,13 @@ window.YLT_CFG.global = {
   followSpeed: 155,     // 同伴跟随速度（略快于你，免得掉队）
   companionAutoAtk: true, // 同伴是否自动攻击射程内敌人
 
+  // 自动模式同伴「松绳漫游」参数（手动模式仍用 followGap 贴身跟随，不受影响）
+  leashMax: 120,        // 自动模式：同伴距你超过此值才被拉回（家园）
+  leashMaxOut: 110,     // 自动模式：外出时的松绳上限
+  leashHysteresis: 22,  // 回拉迟滞：回到 leashMax-此值 才解除回拉，防边界振荡
+  wanderSpeed: 44,      // 漫游速度（慢于 followSpeed，显得闲适）
+  wanderRadius: 58,     // 局部漫游半径（相对同伴当前位置）
+
   // —— 羁绊系统 ——
   closeRange: 56,       // 两人小于此距离算“并肩”，累积羁绊
   bondMax: 100,         // 羁绊值上限

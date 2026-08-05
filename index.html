@@ -28,7 +28,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <title>明清日常 · Demo</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23f7efe1'/%3E%3Crect x='3' y='3' width='26' height='26' rx='5' fill='none' stroke='%23c2453d' stroke-width='2'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%23c2453d' font-family='serif'%3E%E8%8D%AF%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="favico.png" />
   <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -181,16 +181,18 @@ body.on-title:not(.slot-open) #decl { display: block; z-index: 2; }  /* 开始�
 @media (hover: none) and (pointer: coarse) {
   /* 移动端：contain(不裁切/不放大)，游戏置顶、空隙集中在底部；背景用与页面一致的宣纸色，不留渐变"空段" */
   #frame {
-    align-items: flex-start;
+    align-items: center;        /* 纵向居中：设备高于游戏比例时画布上下自然留白（小红书导航栏等落在顶部留白，不遮游戏） */
     justify-content: center;
-    /* 顶部预留刘海/状态栏安全区，避免竖屏时画布顶部被遮挡；空段由纸色背景填充 */
-    padding: env(safe-area-inset-top, 0px) 0 0;
+    padding: env(safe-area-inset-top, 0px) 0 0;   /* 仅标准刘海/状态栏安全区，不再硬编码导航栏预留 */
     border-radius: 0;
     overflow: hidden;
     background: #ece0c8;
     box-shadow: none;
     position: relative;
   }
+  /* 游戏内：#frame 背景转透明，使位于画布之下、bottom:0 的 #decl(z-index:0) 在画布下方空余区可见；
+     声明始终处于游戏本体下层（z-index 低于画布），绝不遮挡游戏（2026-08-04 修） */
+  body.in-game #frame { background: transparent; }
   #game {
     border: none;
     border-radius: 0;
@@ -336,8 +338,8 @@ body.on-title:not(.slot-open) #decl { display: block; z-index: 2; }  /* 开始�
     </div>
     <div id="decl">
       <div class="by">鸿影 作品</div>
-      <div>本游戏为个人练习所作，仅用于同好交流。</div>
-      <div>CP向同人作品，存在OOC风险。</div>
+      <div>个人练习所作，仅用于同好内部交流。</div>
+      <div>OOC预警！【CP向】同人作品，私设如山。</div>
     </div>
   </div>
 
@@ -349,8 +351,8 @@ body.on-title:not(.slot-open) #decl { display: block; z-index: 2; }  /* 开始�
        <head> 内 PRELOAD_CRIT 标记块由 _publish.content_hash 注入关键图 preload（as=fetch crossorigin）。
        源文件 config/*.js、src/*.js 仍保留供编辑与无头测试。 -->
   <script src="config/05_imgmap.0896726c22.js"></script>
-  <script src="core_bundle.c43265a8a4.js"></script>
-  <script>window.__YLT_BUNDLES_DONE = true; window.__LAZY_SRC = "src_lazy_bundle.0b92e13f81.js"; window.__CONFIG_LAZY_SRC = "config_lazy_bundle.4ed76fb10b.js";</script>
+  <script src="core_bundle.a015c58258.js"></script>
+  <script>window.__YLT_BUNDLES_DONE = true; window.__LAZY_SRC = "src_lazy_bundle.0dc0d1ccb9.js"; window.__CONFIG_LAZY_SRC = "config_lazy_bundle.638cb55437.js";</script>
   <!-- 图片二进制化（O2 变体B）：图片地图 config/05_imgmap.js 由 config_core 在启动时阻塞注入 window.YLT_IMG_FILES（rawPath→{u:.webp, x}），
        所有精灵在 loadAllImages() 立即登记并 fetch→blob→(XOR)→decode（见 core.js fetchDrawable），无「分片未到」窗口。
        二进制 .webp 由 image/ 与 npc/ 目录提供；发布副本由 _publish.encrypt_image_files 做 XOR 密文（x:true）保护。
