@@ -35,7 +35,7 @@ window.YLT_CFG.poems = [
       "愿得一心人，白首不相离。",
       "身无彩凤双飞翼，心有灵犀一点通。",
     ],
-    reply: "（眉眼弯弯）将那一句诗又轻轻念了一遍。" },
+    reply: "她眉眼弯弯，将那一句诗又轻轻念了一遍。" },
 
   { who: "either", cat: "poetry",
     question: "你喜欢哪一句？",
@@ -73,6 +73,15 @@ window.YLT_CFG.poems = [
     ],
     reply: "想来别人“赌书消得泼茶香”应当不是医书~" },
 
+      { who: "either", cat: "medicine",
+    question: "《刘涓子鬼遗方》是什么类型的书？",
+    options: [
+      "杂谈",
+      "外科",
+      "医方",
+    ],
+    reply: "这本医书的名字有些奇怪。" },
+
   // ============ 以下为多轮 + 说话示例（新格式 rounds） ============
   // 机制：rounds 为步骤序列，每步二选一：
   //   · 提问步：{ who?, question, options[3], reply, replyWho? }
@@ -90,7 +99,7 @@ window.YLT_CFG.poems = [
       { who: "shimei", speak: "我只要和你在一起看月亮。" },
     ] },
 
-  { who: "shimei", cat: "medicine",
+  { who: "shimei", cat: "poetry",
     rounds: [
       { who: "shimei", question: "来对飞花令吧~花自飘零水自流。",
         options: ["梨花院落溶溶月，柳絮池塘淡淡风。","名花倾国两相欢，长得君王带笑看。", "乱花渐欲迷人眼，浅草才能没马蹄。"],
@@ -99,5 +108,16 @@ window.YLT_CFG.poems = [
         options: ["春风桃李花开日。", "待到重阳日，还来就菊花。", "年年岁岁花相似，岁岁年年人不同。"],
         reply: "忽如一夜春风来，千树万树梨花开。" },
      { who: "shimei", speak: "闲敲棋子落灯花~" },
+    ] },
+
+      { who: "shijie", cat: "poetry",
+    rounds: [
+      { who: "shijie", question: "今天飞花令对“月”字。",
+        options: ["月上柳梢头，人约黄昏后。","月出皎兮，佼人僚兮。", "月下飞天镜，云生结海楼。"],
+        reply: "缺月挂疏桐，漏断人初静。"},
+      { who: "shimei", question: "沧海月明珠有泪，蓝田日暖玉生烟。",
+        options: ["秦时明月汉时关", "尘中见月心亦闲", "相逢秋月满~"],
+        reply: "鸡声茅店月，人迹板桥霜。" },
+     { who: "shijie", speak: "江天一色无纤尘，皎皎空中孤月轮。" },
     ] },
 ];

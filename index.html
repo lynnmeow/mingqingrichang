@@ -53,7 +53,15 @@ html, body {
    · 移动端：以 750×1334 为设计基准，主内容区宽度封顶 750 居中；触控控件改为绝对叠层于地图（非独立底部操作区）。 */
 #stage {
   position: fixed;
-  inset: 0;
+  top: 0; left: 0; right: 0;
+  /* 高度对齐「视觉视口」而非「布局视口」：
+     部分机型宿主（小红书底 Tab / 微信工具栏 / iOS home indicator）会把底部栏以覆盖层绘制在 webview 之上，
+     使布局视口比可见区高出一个底栏高，导致 #decl(bottom:0) 锚到隐藏底、被画布(z-index:1)盖住。
+     用 100dvh（动态视口高，自动排除动态底栏）优先；calc(var(--vh)*100) 作不支持 dvh 的老浏览器兜底（--vh 由引擎启动时写入）；
+     100vh 为最旧回退。2026-08-05 修声明被遮。 */
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -156,7 +164,7 @@ html, body {
 #decl {
   display: none;
   position: absolute;
-  left: 0; right: 0; bottom: 0;
+  left: 0; right: 0; bottom: env(safe-area-inset-bottom, 0px);
   z-index: 0;                 /* 置于游戏画布(#frame z-index:1)之下：即使显示也不遮挡底部栏（2026-07-25 修） */
   text-align: center;
   padding: 6px 12px calc(6px + env(safe-area-inset-bottom, 0px));
@@ -351,8 +359,8 @@ body.on-title:not(.slot-open) #decl { display: block; z-index: 2; }  /* 开始�
        <head> 内 PRELOAD_CRIT 标记块由 _publish.content_hash 注入关键图 preload（as=fetch crossorigin）。
        源文件 config/*.js、src/*.js 仍保留供编辑与无头测试。 -->
   <script src="config/05_imgmap.0896726c22.js"></script>
-  <script src="core_bundle.82a8b5d935.js"></script>
-  <script>window.__YLT_BUNDLES_DONE = true; window.__LAZY_SRC = "src_lazy_bundle.0dc0d1ccb9.js"; window.__CONFIG_LAZY_SRC = "config_lazy_bundle.638cb55437.js";</script>
+  <script src="core_bundle.2a4feff4f2.js"></script>
+  <script>window.__YLT_BUNDLES_DONE = true; window.__LAZY_SRC = "src_lazy_bundle.f271bb0d34.js"; window.__CONFIG_LAZY_SRC = "config_lazy_bundle.0c0666c51e.js";</script>
   <!-- 图片二进制化（O2 变体B）：图片地图 config/05_imgmap.js 由 config_core 在启动时阻塞注入 window.YLT_IMG_FILES（rawPath→{u:.webp, x}），
        所有精灵在 loadAllImages() 立即登记并 fetch→blob→(XOR)→decode（见 core.js fetchDrawable），无「分片未到」窗口。
        二进制 .webp 由 image/ 与 npc/ 目录提供；发布副本由 _publish.encrypt_image_files 做 XOR 密文（x:true）保护。
