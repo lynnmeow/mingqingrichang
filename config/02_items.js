@@ -98,6 +98,7 @@ window.YLT_CFG.codex = {
     { id: "b_poem09", name: "《李贺集》", type: "book", desc: "唐·李贺 诗词辑录。" },
     { id: "b_poem10", name: "《元曲选》", type: "book", desc: "元代诗词选辑。" },
     { id: "b_poem11", name: "《历代遗珠》", type: "book", desc: "各代诗词选辑。" },
+    { id: "b_poem12", name: "《古诗源 选》", type: "book", desc: "清·沈德潜 辑，古诗总集，上起古逸、下逮隋代，诗之渊源所自。" },
     // 特殊道具（仅点亮图鉴，多途径获取不重复）—— F11
     { id:"yusui",    name:"碧玉笛", type:"special", hue:"#cfe3b0", desc:"一支碧玉琢成的笛，吹来满袖清风。" },
     { id:"qingluan", name:"玉如意", type:"special", hue:"#8fd3d0", desc:"温润的玉如意，握在手中事事顺意。" },

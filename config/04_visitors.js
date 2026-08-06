@@ -50,7 +50,7 @@
  *       { img:"npc/new2b.png", weight:1, name:"新访客二(形态B)", events:["e_new2b_buy","e_new2b_chat"] },
  *   ]},
  *   // —— 对应事件定义（seek 求药 / chat 聊天赠书）——
- *   { id:"e_new_buy", type:"seek", weight:3, buyItem:"hulingdan",
+ *   { id:"e_new_buy", type:"seek", giftBook:true, weight:3, buyItem:"hulingdan",
  *     dialog:[{ who:"新访客", text:"……求一枚护灵丹。" }],
  *     noStock:[{ who:"新访客", text:"……今日没货，改日再来。" }],
  *     reward:{ affinity:1, diary:"新访客来买护灵丹。" } },
@@ -90,7 +90,7 @@ window.YLT_CFG.visitors = [
 
 window.YLT_CFG.visitorEvents = [
   /* ---------------- 无限 ---------------- */
-  { id:"e_wuxian_buy", type:"seek", weight:3, buyItem:"hulingdan",
+  { id:"e_wuxian_buy", type:"seek", giftBook:true, weight:3, buyItem:"hulingdan",
     dialog:[{ who:"无限", text:"小黑嚷嚷着想当执行者出任务，特来向二位求一枚解毒丹给他防身。" }],
     noStock:[{ who:"无限", text:"今日没有吗？那在下改日再来叨扰。" }],
     reward:{ affinity:1, diary:"无限来给徒弟买护灵丹。" } },
@@ -98,7 +98,7 @@ window.YLT_CFG.visitorEvents = [
     dialog:[{ who:"无限", text:"顺路来瞧瞧你们，一起去吃肘子吗？" }],
     reward:{ affinity:0 } },
   // 无限·形态2（草稿）
-  { id:"e_wuxian2_buy", type:"seek", weight:10, buyItem:"tianlingdan",
+  { id:"e_wuxian2_buy", type:"seek", giftBook:true, weight:10, buyItem:"tianlingdan",
     dialog:[{ who:"无限", text:"鹿野做事有些拼了，想求些方便疗伤回复身体的丹药给她。" }],
     noStock:[{ who:"无限", text:"有些不巧，在下改日再来。" }],
     reward:{ affinity:1, diary:"无限来给徒弟买天灵丹。" } },
@@ -106,7 +106,7 @@ window.YLT_CFG.visitorEvents = [
     dialog:[{ who:"无限", text:"我和小黑主演的电影上映了，两位若是感兴趣可以看看，爆米花也好吃的。" }],
     reward:{ affinity:1 } },
   // 无限·形态3（草稿）
-  { id:"e_wuxian3_buy", type:"seek", weight:2, buyItem:"lan",
+  { id:"e_wuxian3_buy", type:"seek", giftBook:true, weight:2, buyItem:"lan",
     dialog:[{ who:"无限", text:"想求朵香气清雅的花摆在家中。" }],
     noStock:[{ who:"无限", text:"无妨，不急这一时，叨扰了。" }],
     reward:{ affinity:1, diary:"无限来讨了枝兰花。" } },
@@ -115,7 +115,7 @@ window.YLT_CFG.visitorEvents = [
     reward:{ affinity:1, diary:"无限留下一卷书。" } },
 
   /* ---------------- 张忠烨 ---------------- */
-  { id:"e_zhang_buy", type:"seek", weight:2, buyItem:"ningtiandan",
+  { id:"e_zhang_buy", type:"seek", giftBook:true, weight:2, buyItem:"ningtiandan",
     dialog:[{ who:"张忠烨", text:"想求一炉有助修炼的丹药。" }],
     noStock:[{ who:"张忠烨", text:"今日没有也无妨，不急。" }],
     reward:{ affinity:1, diary:"张忠烨来买凝天丹，临行拱手道谢。" } },
@@ -124,20 +124,20 @@ window.YLT_CFG.visitorEvents = [
     reward:{ affinity:1, diary:"张忠烨留下一卷书，说是投缘。" } },
 
   /* ---------------- 池年 ---------------- */
-  { id:"e_chinian_buy", type:"seek", weight:4, buyItem:"tianlingdan",
+  { id:"e_chinian_buy", type:"seek", giftBook:true, weight:4, buyItem:"tianlingdan",
     dialog:[{ who:"池年", text:"见过两位大人，想为弟子们求几枚伤药防身。" }],
     noStock:[{ who:"池年", text:"没想到今日没有，打扰两位大人了，我改日再来。" }],
     reward:{ affinity:1, diary:"池年为弟子买了天灵丹。" } },
   { id:"e_chinian_chat", type:"chat", weight:2,giftBook:true,
     dialog:[{ who:"池年", text:"向两位大人问好。" }],
     reward:{ affinity:0 } },
-    { id:"e_chinian_herb", type:"seek", weight:4, buyItem:"fenglingcao",
+    { id:"e_chinian_herb", type:"seek", giftBook:true, weight:4, buyItem:"fenglingcao",
     dialog:[{ who:"池年", text:"见过两位大人，弟子们在练习提取草灵，特来求些药草。" }],
     noStock:[{ who:"池年", text:"不打紧，待两位采得，我改日再来。" }],
     reward:{ affinity:1, diary:"池年求风灵草给弟子们练习用。" } },
 
   /* ---------------- 小黑 ---------------- */
-  { id:"e_xiaohei_buy", type:"seek", weight:4, buyItem:"biqidan",
+  { id:"e_xiaohei_buy", type:"seek", giftBook:true, weight:4, buyItem:"biqidan",
     dialog:[{ who:"小黑", text:"明王姐姐，清凝姐姐，我想下水玩，有没有合适的丹药呀？" }],
     noStock:[{ who:"小黑", text:"暂时没有吗？那我先回去啦。" }],
     reward:{ affinity:1, diary:"小黑来买闭气丹。" } },
@@ -145,12 +145,12 @@ window.YLT_CFG.visitorEvents = [
     dialog:[{ who:"小黑", text:"我和师父主演的大电影上映啦，这是电影票，师父让我送来~" }],
     reward:{ affinity:0 } },
     // 小黑·买花（草稿）
-    { id:"e_xiaohei_flower", type:"seek", weight:2, buyItem:"shaoyao",
+    { id:"e_xiaohei_flower", type:"seek", giftBook:true, weight:2, buyItem:"mudan",
     dialog:[{ who:"小黑", text:"清凝姐姐~我想要一朵第一好看的花~" }],
     noStock:[{ who:"小黑", text:"没有呀……那我先回去啦，下次再来看花~" }],
     reward:{ affinity:1, diary:"小黑来讨一朵牡丹花。" } },
   // 小黑·形态2（草稿）
-  { id:"e_xiaohei2_buy", type:"seek", weight:4, buyItem:"biqidan",
+  { id:"e_xiaohei2_buy", type:"seek", giftBook:true, weight:4, buyItem:"biqidan",
     dialog:[{ who:"小黑", text:"明王大人好~有没有丹药可以让我在水下呼吸呀！" }],
     noStock:[{ who:"小黑", text:"没货啦？那我明天再来~" }],
     reward:{ affinity:1, diary:"小黑又来买闭气丹。" } },
@@ -158,7 +158,7 @@ window.YLT_CFG.visitorEvents = [
     dialog:[{ who:"小黑", text:"人类发明的这个黑黑还冒泡的水好好喝！" }],
     reward:{ affinity:1 } },
   // 小黑·形态3（草稿）
-  { id:"e_xiaohei3_buy", type:"seek", weight:3, buyItem:"fengyucao",
+  { id:"e_xiaohei3_buy", type:"seek", giftBook:true, weight:3, buyItem:"fengyucao",
     dialog:[{ who:"小黑", text:"有没有长得很好看的药草呀？" }],
     noStock:[{ who:"小黑", text:"没货呀……那我先回去啦，拜拜!" }],
     reward:{ affinity:1, diary:"小黑来买凤羽草。" } },
@@ -176,28 +176,28 @@ window.YLT_CFG.visitorEvents = [
     
 
   /* ---------------- 鹿野 ---------------- */
-  { id:"e_luye_buy", type:"seek", weight:3, buyItem:"hulingdan",
+  { id:"e_luye_buy", type:"seek", giftBook:true, weight:3, buyItem:"hulingdan",
     dialog:[{ who:"鹿野", text:"解毒的丹药要没了，来补充库存。" }],
     noStock:[{ who:"鹿野", text:"不急，我先回去了，不打扰你们的二人世界。" }],
     reward:{ affinity:1, diary:"鹿野来买护灵丹。" } },
   { id:"e_luye_chat", type:"chat", weight:2, giftBook:true,
     dialog:[{ who:"鹿野", text:"偶然拾得几页旧书，便想到了二位家中的大书架。" }],
     reward:{ affinity:1, diary:"鹿野留下几页旧书。" } },
-   { id:"e_luye_flower", type:"seek", weight:2, buyItem:"qujing",
+   { id:"e_luye_flower", type:"seek", giftBook:true, weight:2, buyItem:"qujing",
     dialog:[{ who:"鹿野", text:"有没有能强化毒物效果的药草？" }],
     noStock:[{ who:"鹿野", text:"无妨，我过两日再来。" }],
     reward:{ affinity:1, diary:"鹿野来买曲晶。" } },
   // 鹿野·形态2（草稿）
-  { id:"e_luye2_buy", type:"seek", weight:3, buyItem:"ningtiandan",
+  { id:"e_luye2_buy", type:"seek", giftBook:true, weight:3, buyItem:"ningtiandan",
     dialog:[{ who:"鹿野", text:"顺路，正好来给徒弟买点帮助修炼的丹药。" }],
     noStock:[{ who:"鹿野", text:"暂缺？那我过两日再来。" }],
     reward:{ affinity:1, diary:"鹿野来买凝天丹。" } },
   { id:"e_luye2_chat", type:"chat", weight:2,
-    dialog:[{ who:"鹿野", text:"这身造型怎么样？感觉妖精和人类看到我都在偷偷尖叫。" }],
+    dialog:[{ who:"鹿野", text:"感觉今日妖精和人类看到我都在偷偷尖叫。" }],
     reward:{ affinity:1 } },
 
   /* ---------------- 西木子 ---------------- */
-  { id:"e_ximuzi_buy", type:"seek", weight:3, buyItem:"ningtiandan",
+  { id:"e_ximuzi_buy", type:"seek", giftBook:true, weight:3, buyItem:"lingxincao",
     dialog:[{ who:"西木子", text:"不知可有草灵无需密封保存的药草出售？，劳烦二位大人了。" }],
     noStock:[{ who:"西木子", text:"原来不巧，改日再来叨扰。" }],
     reward:{ affinity:1, diary:"西木子买走灵心草，笑吟吟离去。" } },

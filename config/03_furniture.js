@@ -18,7 +18,7 @@ window.YLT_CFG = window.YLT_CFG || {};
 window.YLT_CFG.home = {
   spawn: { x: 4, y: 10 },       // 进入家园两人落点（房间空地；20 宽地图下坐标）
   random: {                      // 随机姐妹活动 ticker（混合式·环境随机）
-    tickMin: 6, tickMax: 14,     // 两次活动间隔（秒，随机）
+    tickMin: 20, tickMax: 30,    // 两次活动间隔（秒，随机）
     pool: [
       { id:"tea",      weight:18, who:"either", anim:"tea",
         lines:[{who:"",text:"闲来无事，两人静静倚在一起煮茶闲聊。"}], diary:"两人倚在一起煮茶闲聊。" },

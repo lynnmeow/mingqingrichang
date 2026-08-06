@@ -44,7 +44,7 @@ window.YLT_CFG.poems = [
       "素月分辉，明河共影。",
       "长烟一空，皓月千里。",
     ],
-    reply: "“白露暖空，素月流天”“寒峰凝素，孤月垂清”也不错。" },
+    reply: "“白露暖空，素月流天”和“寒峰凝素，孤月垂清”也不错。" },
 
   { who: "shijie", cat: "medicine", replyWho: "shimei",
     question: "清凝，中国最早的医学典籍是哪本？",

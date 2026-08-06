@@ -26,6 +26,7 @@ window.YLT_BOOK_VERIFY = {
   "b_poem02": true,     // 龚自珍集
   "b_poem07": true,     // 清诗选
   "b_poem11": true,     // 历代遗珠
+  "b_poem12": true,     // 古诗源
   // ===== 话本/故事 story（已检查）=====
   "b_jinbo": true,      // 金波旬花
   "b_liangshi": true,   // 两时花
@@ -39,14 +40,14 @@ window.YLT_BOOK_VERIFY = {
   "b_shishuo": false,         // 世说新语
   "b_chajing": true,          // 茶经
   "b_butian": false,          // 丹元子步天歌
-  "b_jiupu": false,           // 酒谱
+  "b_jiupu": true,           // 酒谱
   "b_xiangpu": true,         // 香谱
   "b_dongjing": false,        // 东京梦华录
   "b_wulin": false,           // 武林旧事
   "b_mengxi": false,          // 梦溪笔谈
   "b_qinshi": false,          // 琴史
   "b_yunji": false,           // 云笈七签
-  "b_pingshi": false,         // 瓶史
+  "b_pingshi": true,         // 瓶史
   "b_xuxiake": false,         // 徐霞客游记
   "b_tiangong": false,        // 天工开物
   "b_huajing": false,         // 花镜
