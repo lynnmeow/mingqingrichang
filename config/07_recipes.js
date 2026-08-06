@@ -15,13 +15,13 @@ window.YLT_CFG = window.YLT_CFG || {};
 
 window.YLT_CFG.recipes = [
   { id:"huling", name:"护灵丹", inputs:["fenglingcao","fengyucao","qujing"], output:"hulingdan",
-    brewHours: 2,   // 2 时辰 ≈ 1 分钟
+    brewHours: 3,   // 2 时辰 ≈ 1 分钟
     lines:[{who:"",text:"万用的解毒丹。"}] },
   { id:"ningtian", name:"凝天丹", inputs:["lingxincao","xulingcao"], output:"ningtiandan",
-    brewHours: 3,
+    brewHours: 4,
     lines:[{who:"",text:"凝练灵力，有助修炼。"}] },
   { id:"tianling", name:"天灵丹", inputs:["fengyucao","xulingcao"], output:"tianlingdan",
-    brewHours: 3,
+    brewHours: 6,
     lines:[{who:"",text:"肉体受伤后只要没死，服之即可瞬间恢复。"}] },
   { id:"biqi", name:"闭气丹", inputs:["fenglingcao"], output:"biqidan",
     brewHours: 2,

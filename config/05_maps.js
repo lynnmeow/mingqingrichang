@@ -39,7 +39,6 @@ window.YLT_CFG.maps = [
       intro: [
         { who: "阎明", text: "今日便沿着旧道走一走，你留神脚下。" },
         { who: "李清凝", text: "（深吸一口气）晨间的山气最好闻了。" },
-        { who: "", text: "J 出手 · K 为同伴疗伤 · L 合击 · Tab 切换主控角色" },
       ],
       onFirstHerb: [
         { who: "李清凝", text: "太好了，叶尖的露珠还没散呢。" },
@@ -81,7 +80,6 @@ window.YLT_CFG.maps = [
       intro: [
         { who: "阎明", text: "（侧耳）溪水比上月浅了些。" },
         { who: "李清凝", text: "哎呀，我们去玩水吧！" },
-        { who: "", text: "J 出手 · K 为同伴疗伤 · L 合击 · Tab 切换主控角色" },
       ],
       onFirstHerb: [
         { who: "阎明", text: "溪谷里的灵心草，根须沾着水汽，比别处的更润几分。" },
@@ -126,7 +124,7 @@ window.YLT_CFG.maps = [
        { who: "李清凝", text: "（立刻把手搭上去）嘻嘻，想牵师姐的手，就来这里采药。" },
       ],
       onFirstHerb: [
-        { who: "阎明", text: "崖畔的草药采着要费些眼力。不过——值得。" },
+        { who: "阎明", text: "崖畔的草药采着要费些力气，但值得。" },
       ],
       onReturn: [
         { who: "李清凝", text: "师姐师姐，你看那边的云好好看。" },

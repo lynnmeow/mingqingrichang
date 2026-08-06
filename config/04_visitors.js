@@ -183,7 +183,7 @@ window.YLT_CFG.visitorEvents = [
   { id:"e_luye_chat", type:"chat", weight:2, giftBook:true,
     dialog:[{ who:"鹿野", text:"偶然拾得几页旧书，便想到了二位家中的大书架。" }],
     reward:{ affinity:1, diary:"鹿野留下几页旧书。" } },
-   { id:"e_luye_flower", type:"seek", weight:2, buyItem:"lan",
+   { id:"e_luye_flower", type:"seek", weight:2, buyItem:"qujing",
     dialog:[{ who:"鹿野", text:"有没有能强化毒物效果的药草？" }],
     noStock:[{ who:"鹿野", text:"无妨，我过两日再来。" }],
     reward:{ affinity:1, diary:"鹿野来买曲晶。" } },

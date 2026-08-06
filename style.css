@@ -80,6 +80,8 @@ html, body {
   grid-template-columns: repeat(2, 64px);
   grid-gap: 12px;
 }
+/* 对话态：隐藏右下角 4 操作按钮，使画布对话卡成为该区域顶层（显示+交互均在按钮之上，2026-08-06 修） */
+body.dialogue-open #btns { display: none !important; }
 /* 水墨圆按钮：刷感渐变 + 墨色字 + 图标 + 文字，提升可读性 */
 .act {
   display: flex;
@@ -113,6 +115,24 @@ html, body {
   color: #fff;
 }
 .act.combo:active { background: linear-gradient(180deg, #c2453d, #a8352e); color: #fff; }
+
+/* 画布+控件包装层：作为 #frame(flex column, align-items:center) 的 flex item，
+   交叉轴居中 → 收缩到画布实际尺寸（而非 750px 的 #frame）。
+   内部 #controls 绝对定位于此层 → 4 个按钮锚定画布右下角，
+   不再随 750px 容器右缘飞出游戏区（PC 端画布仅 288px 居中，原 right:16px 落在距窗口右缘 16px 处）。
+   2026-08-06 修。 */
+#screen { position: relative; }
+/* 操作按钮容器：PC 与移动端统一显示，常驻于游戏本体右下角（仅外出战斗态显示内部 #btns）。
+   容器为 #screen（画布实际尺寸，position:relative）的子元素 → 按钮锚定画布，不随屏幕宽飞出游戏；
+   容器本身 pointer-events:none，避免遮挡画布；仅按钮自身可点。 */
+#controls {
+  display: block;
+  position: absolute;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 6;
+  pointer-events: none;
+}
 
 /* ============================================================
    移动端叠层 + 半透明白玻璃（必须位于基础 #btns/.act 之后）。

@@ -14,8 +14,8 @@ window.YLT_CFG = window.YLT_CFG || {};
   // 已随方向一 aggressive split 移入 config_lazy_bundle（标题界面后注入），改由 99_assemble_lazy 的
   // requireKeysLazy 校验，此处 requireKeysCore 不再包含它们，避免首屏误报。
   const requireKeysCore = ["global", "sisters", "enemyDefault", "codex",
-    "home", "furniture", "maps", "homeMap", "theme", "story",
-    "homeInteractions", "mode", "weather"];
+    "home", "furniture", "maps",     "homeMap", "theme", "story",
+    "mode", "weather"];
   for (const k of requireKeysCore) {
     if (C[k] === undefined) {
       console.error("[config] 99_assemble 缺少必要配置块: " + k + "（检查对应 00–08 文件）");
@@ -46,7 +46,6 @@ window.YLT_CFG = window.YLT_CFG || {};
     recipes: C.recipes,
     theme: C.theme,
     story: C.story,
-    homeInteractions: C.homeInteractions,
     mode: C.mode,       // F15：手动 / 自动 操作模式配置
     weather: C.weather,  // 天气配置（每日随机采样）
     layout: C.layout,   // F-Editor：家园家具视觉/位置层（03_layout.js）

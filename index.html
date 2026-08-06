@@ -99,16 +99,23 @@ html, body {
   touch-action: none;
 }
 
-/* 触控操作区：仅触屏显示。桌面端隐藏。 */
+/* 画布+控件包装层：作为 #frame(flex column, align-items:center) 的 flex item，
+   交叉轴居中 → 收缩到画布实际尺寸（而非 750px 的 #frame）。
+   内部 #controls 绝对定位于此层 → 4 个按钮锚定画布右下角，
+   不再随 750px 容器右缘飞出游戏区（PC 端画布仅 288px 居中，原 right:16px 落在距窗口右缘 16px 处）。
+   2026-08-06 修。 */
+#screen { position: relative; }
+
+/* 操作按钮容器：PC 与移动端统一显示，常驻于游戏本体右下角（仅外出战斗态显示内部 #btns）。
+   容器为 #frame（游戏本体，position:relative）的子元素 → 按钮锚定画布区域，不随屏幕宽适配飞出游戏；
+   容器本身 pointer-events:none，避免遮挡画布；仅按钮自身可点。 */
 #controls {
-  display: none;
-  flex: 0 0 auto;
-  width: 100%;
-  max-width: 750px;
-  margin: 0 auto;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 0 18px calc(12px + env(safe-area-inset-bottom, 0px));
+  display: block;
+  position: absolute;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 6;
+  pointer-events: none;
 }
 
 /* 移动端叠层+半透明白玻璃样式已移至文件末尾。
@@ -117,10 +124,16 @@ html, body {
 
 /* 触控操作按钮容器（摇杆已移除，改为画布自由滑动/点击移动） */
 #btns {
-  display: grid;
+  display: none;                 /* 默认隐藏；仅外出战斗态(body.outing-scene)显示 — PC/移动端统一 */
   grid-template-columns: repeat(2, 64px);
   grid-gap: 12px;
+  pointer-events: auto;
 }
+/* PC + 移动端统一：仅外出战斗态显示 4 个操作按钮 */
+body.outing-scene #btns { display: grid; }
+/* 对话态：隐藏右下角 4 操作按钮，使画布对话卡成为该区域顶层（显示+交互均在按钮之上，2026-08-06 修）。
+   !important 覆盖上面 body.outing-scene #btns 与移动端媒体查询内同名规则。 */
+body.dialogue-open #btns { display: none !important; }
 /* 水墨圆按钮：刷感渐变 + 墨色字 + 图标 + 文字，提升可读性 */
 .act {
   display: flex;
@@ -141,7 +154,7 @@ html, body {
   box-shadow: 0 3px 10px rgba(90,70,40,0.22), inset 0 1px 0 rgba(255,255,255,0.5);
   transition: transform 0.05s ease, background 0.1s ease;
 }
-.act .ico { font-size: 16px; line-height: 1; }
+.act .ico { font-size: 18px; line-height: 1; letter-spacing: 1px; }
 .act:active {
   transform: scale(0.94);
   background: linear-gradient(180deg, #e8c06a, #d9a94a);
@@ -334,14 +347,16 @@ body.on-title:not(.slot-open) #decl { display: block; z-index: 2; }  /* 开始�
   </script>
   <div id="stage">
     <div id="frame">
-      <canvas id="game"></canvas>
-    </div>
-    <div id="controls">
-      <div id="btns">
-        <button id="bAtk" class="act"><span class="ico">剑</span><span>攻击</span></button>
-        <button id="bHeal" class="act"><span class="ico">疗</span><span>疗伤</span></button>
-        <button id="bSw" class="act"><span class="ico">换</span><span>切换</span></button>
-        <button id="bCombo" class="act combo"><span class="ico">同</span><span>合击</span></button>
+      <div id="screen">
+        <canvas id="game"></canvas>
+        <div id="controls">
+          <div id="btns">
+            <button id="bAtk" class="act"><span class="ico">攻击</span></button>
+            <button id="bHeal" class="act"><span class="ico">治疗</span></button>
+            <button id="bSw" class="act"><span class="ico">切换</span></button>
+            <button id="bCombo" class="act combo"><span class="ico">合击</span></button>
+          </div>
+        </div>
       </div>
     </div>
     <div id="decl">
@@ -359,8 +374,8 @@ body.on-title:not(.slot-open) #decl { display: block; z-index: 2; }  /* 开始�
        <head> 内 PRELOAD_CRIT 标记块由 _publish.content_hash 注入关键图 preload（as=fetch crossorigin）。
        源文件 config/*.js、src/*.js 仍保留供编辑与无头测试。 -->
   <script src="config/05_imgmap.0896726c22.js"></script>
-  <script src="core_bundle.2a4feff4f2.js"></script>
-  <script>window.__YLT_BUNDLES_DONE = true; window.__LAZY_SRC = "src_lazy_bundle.f271bb0d34.js"; window.__CONFIG_LAZY_SRC = "config_lazy_bundle.0c0666c51e.js";</script>
+  <script src="core_bundle.9c0c8a1dee.js"></script>
+  <script>window.__YLT_BUNDLES_DONE = true; window.__LAZY_SRC = "src_lazy_bundle.dd8b03dbe4.js"; window.__CONFIG_LAZY_SRC = "config_lazy_bundle.06a7458250.js";</script>
   <!-- 图片二进制化（O2 变体B）：图片地图 config/05_imgmap.js 由 config_core 在启动时阻塞注入 window.YLT_IMG_FILES（rawPath→{u:.webp, x}），
        所有精灵在 loadAllImages() 立即登记并 fetch→blob→(XOR)→decode（见 core.js fetchDrawable），无「分片未到」窗口。
        二进制 .webp 由 image/ 与 npc/ 目录提供；发布副本由 _publish.encrypt_image_files 做 XOR 密文（x:true）保护。
