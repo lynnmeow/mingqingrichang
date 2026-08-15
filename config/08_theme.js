@@ -22,6 +22,7 @@ window.YLT_CFG.theme = {
   gold:     "#e8c06a",      // 暖金窗光
   zhusha:   "#c2453d",      // 朱砂红（印章 / 合击）
   bond:     "#e39ab8",      // 羁绊粉
+  qingning: "#5bb2ac",      // 清凝绿（诗词 / 李清凝主题色）
 };
 
 // 剧情 / 对话（全局）

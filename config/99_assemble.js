@@ -48,6 +48,7 @@ window.YLT_CFG = window.YLT_CFG || {};
     story: C.story,
     mode: C.mode,       // F15：手动 / 自动 操作模式配置
     weather: C.weather,  // 天气配置（每日随机采样）
+    festivals: C.festivals || [],   // 节日/节气数据（18_festivals.js）：进门当日命中则弹窗
     layout: C.layout,   // F-Editor：家园家具视觉/位置层（03_layout.js）
     poems: C.poems,     // F9 随机对诗：诗句配置（缺失则对诗功能优雅关闭，不报错）
     stars: undefined, // F6 夜晚点窗观星：古星图数据；由 config_lazy 的 99_assemble_lazy 在标题界面后散布并填充（scatterStars 已随 14_stars 迁入该文件）
