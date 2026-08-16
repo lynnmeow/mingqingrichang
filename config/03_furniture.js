@@ -195,4 +195,12 @@ window.YLT_CFG.furniture = [
     proximity:[
       {who:"李清凝",text:"和师姐一起，真好~"},
     ] },
+
+  /* —— 院子家具：灯 ——
+   * 普通家具层绘制关灯图（light_off.png），作为实体灯柱存在；
+   * 亮灯图（light_on.png）由 drawLamp 在「暗遮罩之上、萤火/雨丝之下」的氛围层额外绘制，
+   * 与关灯图顶部对齐、左右居中，营造夜色中灯笼不被暗幕压暗的效果。
+   * isObstacle:true + block:{x:0,y:-1,w:1,h:3} → 封锁列12、行4~6。 */
+  { id:"light", name:"灯", kind:"light", x:12, y:5, isObstacle:true, onTap:null,
+    collide:null, hit:null, block:{x:0,y:-1,w:1,h:3}, lines:[] },
 ];

@@ -20,6 +20,8 @@ window.YLT_IMG_FILES = {
   "image/flowers/xulingcao_bloom.png": {u:"image/flowers/xulingcao_bloom.78039181f0.webp", x:true},
   "image/gate.png": {u:"image/gate.923d2e56a8.webp", x:true},
   "image/home_bg.png": {u:"image/home_bg.3cf7f55916.webp", x:true},
+  "image/light_off.png": {u:"image/light_off.cedd38b9a9.webp", x:true},
+  "image/light_on.png": {u:"image/light_on.3ea9c0b337.webp", x:true},
   "image/liqingning_skin1.png": {u:"image/liqingning_skin1.4be9beaf8c.webp", x:true},
   "image/liqingning_skin2.png": {u:"image/liqingning_skin2.bd4c8be9ec.webp", x:true},
   "image/medicine.png": {u:"image/medicine.171458adb2.webp", x:true},
