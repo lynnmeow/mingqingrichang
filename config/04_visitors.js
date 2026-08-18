@@ -160,7 +160,7 @@ window.YLT_CFG.visitorEvents = [
   // 小黑·形态3（草稿）
   { id:"e_xiaohei3_buy", type:"seek", giftBook:true, weight:3, buyItem:"fengyucao",
     dialog:[{ who:"小黑", text:"有没有长得很好看的药草呀？" }],
-    noStock:[{ who:"小黑", text:"没货呀……那我先回去啦，拜拜!" }],
+    noStock:[{ who:"小黑", text:"没货呀……那我先回去啦，拜拜！" }],
     reward:{ affinity:1, diary:"小黑来买凤羽草。" } },
   { id:"e_xiaohei3_chat", type:"chat", weight:2,
     dialog:[{ who:"小黑", text:"嘿嘿，师父说如果路过，可以来看看有没有什么可以帮忙干的活儿。" }],
@@ -198,7 +198,7 @@ window.YLT_CFG.visitorEvents = [
 
   /* ---------------- 西木子 ---------------- */
   { id:"e_ximuzi_buy", type:"seek", giftBook:true, weight:3, buyItem:"lingxincao",
-    dialog:[{ who:"西木子", text:"不知可有草灵无需密封保存的药草出售？，劳烦二位大人了。" }],
+    dialog:[{ who:"西木子", text:"不知可有草灵无需密封保存的药草出售？劳烦二位大人了。" }],
     noStock:[{ who:"西木子", text:"原来不巧，改日再来叨扰。" }],
     reward:{ affinity:1, diary:"西木子买走灵心草，笑吟吟离去。" } },
   { id:"e_ximuzi_chat", type:"chat", weight:2,
