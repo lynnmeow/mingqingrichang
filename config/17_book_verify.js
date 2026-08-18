@@ -31,6 +31,8 @@ window.YLT_BOOK_VERIFY = {
   "b_jinbo": true,      // 金波旬花
   "b_liangshi": true,   // 两时花
   "b_pincou": true,     // 拼凑月亮
+  "b_huanqi": true,     // 唤起一天明月
+  "b_hudie": true,      // 蝴蝶蝴蝶飞去哪儿
   // ===== 杂览 misc（待逐本检查：保持 false）=====
   "b_daode": true,           // 道德经
   "b_shanhaij": false,        // 山海经

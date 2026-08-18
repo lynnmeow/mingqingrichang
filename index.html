@@ -374,8 +374,8 @@ body.on-title:not(.slot-open) #decl { display: block; z-index: 2; }  /* 开始�
        <head> 内 PRELOAD_CRIT 标记块由 _publish.content_hash 注入关键图 preload（as=fetch crossorigin）。
        源文件 config/*.js、src/*.js 仍保留供编辑与无头测试。 -->
   <script src="config/05_imgmap.6ef3e2463e.js"></script>
-  <script src="core_bundle.c966035f49.js"></script>
-  <script>window.__YLT_BUNDLES_DONE = true; window.__LAZY_SRC = "src_lazy_bundle.d4581d4e9b.js"; window.__CONFIG_LAZY_SRC = "config_lazy_bundle.d7c96d3b86.js";</script>
+  <script src="core_bundle.36805adc45.js"></script>
+  <script>window.__YLT_BUNDLES_DONE = true; window.__LAZY_SRC = "src_lazy_bundle.77ed8cccd2.js"; window.__CONFIG_LAZY_SRC = "config_lazy_bundle.f34b29aa12.js";</script>
   <!-- 图片二进制化（O2 变体B）：图片地图 config/05_imgmap.js 由 config_core 在启动时阻塞注入 window.YLT_IMG_FILES（rawPath→{u:.webp, x}），
        所有精灵在 loadAllImages() 立即登记并 fetch→blob→(XOR)→decode（见 core.js fetchDrawable），无「分片未到」窗口。
        二进制 .webp 由 image/ 与 npc/ 目录提供；发布副本由 _publish.encrypt_image_files 做 XOR 密文（x:true）保护。

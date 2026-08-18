@@ -66,6 +66,8 @@ window.YLT_CFG.codex = {
     { id:"b_jinbo", name:"《金波旬花》", type:"book", desc:"你可记得昆仑雪峰下那片金色花海。" },
     { id:"b_liangshi", name:"《两时花》", type:"book", desc:"如果清凝先遇到明王。" },
     { id:"b_pincou", name: "《拼凑月亮》", type:"book", desc: "她将一片一片地将这破碎的绚丽灵魂拼好，让李清凝无拘无束地重回世间。",},
+    { id:"b_huanqi", name:"《唤起一天明月》", type:"book", desc:"何谓侠？" },
+    { id:"b_hudie", name:"《蝴蝶蝴蝶飞去哪儿》", type:"book", desc:"李清凝喜欢那只飞出院墙的蝴蝶。" },
     { id:"b_shanhaij", name:"《山海经》", type:"book", desc:"上古山川博物之志，载异兽神祇、远方国族。" },
     { id:"b_butian", name:"《丹元子步天歌》", type:"book", desc:"唐·王希明（号丹元子）撰，七言韵文，首将全天星官分归三垣二十八宿，古代观象识星总纲。" },
     // 杂览新书（清玩·笔记·技术，id 对齐 11_books.js）
