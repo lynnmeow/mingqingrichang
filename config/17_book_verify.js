@@ -41,7 +41,7 @@ window.YLT_BOOK_VERIFY = {
   "b_shiji": false,           // 史记
   "b_shishuo": false,         // 世说新语
   "b_chajing": true,          // 茶经
-  "b_butian": false,          // 丹元子步天歌
+  "b_butian": true,           // 丹元子步天歌
   "b_jiupu": true,           // 酒谱
   "b_xiangpu": true,         // 香谱
   "b_dongjing": false,        // 东京梦华录
